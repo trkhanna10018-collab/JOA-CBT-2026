@@ -77,15 +77,15 @@ let answers={
 let questions={
 
 1:{
-q:"भारत की राजधानी क्या है?",
-A:"दिल्ली",
-B:"मुंबई",
-C:"कोलकाता",
-D:"चेन्नई"
+q:"What is the capital of India?",
+A:"Delhi",
+B:"Mumbai",
+C:"Kolkata",
+D:"Chennai"
 },
 
 2:{
-q:"2 + 2 = ?",
+q:"What is the value of 2 + 2?",
 A:"3",
 B:"4",
 C:"5",
@@ -93,27 +93,27 @@ D:"6"
 },
 
 3:{
-q:"भारत का राष्ट्रीय पशु कौन सा है?",
-A:"शेर",
-B:"हाथी",
-C:"बाघ",
-D:"घोड़ा"
+q:"Which is the national animal of India?",
+A:"Lion",
+B:"Elephant",
+C:"Tiger",
+D:"Horse"
 },
 
 4:{
-q:"भारत का राष्ट्रीय ध्वज किसने डिजाइन किया?",
-A:"पिंगली वेंकैया",
-B:"गांधी जी",
-C:"नेहरू",
-D:"पटेल"
+q:"Who designed the national flag of India?",
+A:"Pingali Venkayya",
+B:"Mahatma Gandhi",
+C:"Jawaharlal Nehru",
+D:"Sardar Patel"
 },
 
 5:{
-q:"सूर्य किस दिशा से उगता है?",
-A:"पश्चिम",
-B:"उत्तर",
-C:"दक्षिण",
-D:"पूर्व"
+q:"The Sun rises in which direction?",
+A:"West",
+B:"North",
+C:"South",
+D:"East"
 }
 
 };
@@ -207,7 +207,7 @@ C: ${q.C}<br>
 D: ${q.D}<br><br>
 
 <b>Your Answer:</b> ${userAnswers[i] || "Not Attempted"}<br>
-<b>Correct Answer:</b> ${answers[i]}
+<b>Correct Answer:</b> ${answers[i}
 
 </div>
 `;
@@ -284,16 +284,6 @@ Maximum Marks : 100<br>
 Time Allowed : 1 Hour 30 Minutes
 </p>
 
-<p><b>Section-wise Distribution</b></p>
-
-<p>
-Computer / IT : 70 Questions<br>
-Himachal Pradesh GK : 20 Questions<br>
-English Grammar : 5 Questions<br>
-Hindi Grammar : 3 Questions<br>
-Reasoning : 2 Questions
-</p>
-
 <hr>
 
 <button onclick="nextCover()">Next</button>
@@ -324,12 +314,12 @@ Phone Number<br>
 
 <div class="container question" id="q1">
 
-<p>1. भारत की राजधानी क्या है?</p>
+<p>1. What is the capital of India?</p>
 
-<input type="radio" name="q1" value="A"> दिल्ली<br>
-<input type="radio" name="q1" value="B"> मुंबई<br>
-<input type="radio" name="q1" value="C"> कोलकाता<br>
-<input type="radio" name="q1" value="D"> चेन्नई<br><br>
+<input type="radio" name="q1" value="A"> Delhi<br>
+<input type="radio" name="q1" value="B"> Mumbai<br>
+<input type="radio" name="q1" value="C"> Kolkata<br>
+<input type="radio" name="q1" value="D"> Chennai<br><br>
 
 <button onclick="next()">Next</button>
 
@@ -337,7 +327,7 @@ Phone Number<br>
 
 <div class="container question" id="q2">
 
-<p>2. 2 + 2 = ?</p>
+<p>2. What is the value of 2 + 2?</p>
 
 <input type="radio" name="q2" value="A"> 3<br>
 <input type="radio" name="q2" value="B"> 4<br>
@@ -350,12 +340,12 @@ Phone Number<br>
 
 <div class="container question" id="q3">
 
-<p>3. भारत का राष्ट्रीय पशु कौन सा है?</p>
+<p>3. Which is the national animal of India?</p>
 
-<input type="radio" name="q3" value="A"> शेर<br>
-<input type="radio" name="q3" value="B"> हाथी<br>
-<input type="radio" name="q3" value="C"> बाघ<br>
-<input type="radio" name="q3" value="D"> घोड़ा<br><br>
+<input type="radio" name="q3" value="A"> Lion<br>
+<input type="radio" name="q3" value="B"> Elephant<br>
+<input type="radio" name="q3" value="C"> Tiger<br>
+<input type="radio" name="q3" value="D"> Horse<br><br>
 
 <button onclick="next()">Next</button>
 
@@ -363,12 +353,12 @@ Phone Number<br>
 
 <div class="container question" id="q4">
 
-<p>4. भारत का राष्ट्रीय ध्वज किसने डिजाइन किया?</p>
+<p>4. Who designed the national flag of India?</p>
 
-<input type="radio" name="q4" value="A"> पिंगली वेंकैया<br>
-<input type="radio" name="q4" value="B"> गांधी जी<br>
-<input type="radio" name="q4" value="C"> नेहरू<br>
-<input type="radio" name="q4" value="D"> पटेल<br><br>
+<input type="radio" name="q4" value="A"> Pingali Venkayya<br>
+<input type="radio" name="q4" value="B"> Mahatma Gandhi<br>
+<input type="radio" name="q4" value="C"> Jawaharlal Nehru<br>
+<input type="radio" name="q4" value="D"> Sardar Patel<br><br>
 
 <button onclick="next()">Next</button>
 
@@ -376,12 +366,12 @@ Phone Number<br>
 
 <div class="container question" id="q5">
 
-<p>5. सूर्य किस दिशा से उगता है?</p>
+<p>5. The Sun rises in which direction?</p>
 
-<input type="radio" name="q5" value="A"> पश्चिम<br>
-<input type="radio" name="q5" value="B"> उत्तर<br>
-<input type="radio" name="q5" value="C"> दक्षिण<br>
-<input type="radio" name="q5" value="D"> पूर्व<br><br>
+<input type="radio" name="q5" value="A"> West<br>
+<input type="radio" name="q5" value="B"> North<br>
+<input type="radio" name="q5" value="C"> South<br>
+<input type="radio" name="q5" value="D"> East<br><br>
 
 <button onclick="next()">Submit</button>
 
