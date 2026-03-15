@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
 <title>Mock Test</title>
@@ -8,40 +9,85 @@
 
 body{
 font-family:Arial;
-background:#f2f2f2;
-padding:20px;
+background:linear-gradient(120deg,#4facfe,#00f2fe);
+margin:0;
+padding:0;
 }
 
-.box{
-background:white;
-padding:20px;
-border-radius:10px;
+.container{
 max-width:600px;
 margin:auto;
+background:white;
+margin-top:50px;
+padding:30px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
+text-align:center;
 }
 
 button{
-padding:10px 20px;
 background:#007bff;
 color:white;
 border:none;
+padding:10px 20px;
 border-radius:5px;
 font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#0056b3;
+}
+
+.question{
+display:none;
+text-align:left;
 }
 
 </style>
 
 <script>
 
-function check(){
-
+let current=1;
 let score=0;
 
-if(document.querySelector('input[name="q1"]:checked')?.value=="a"){
+let answers={
+1:"a",
+2:"b",
+3:"c",
+4:"a",
+5:"d"
+};
+
+function startTest(){
+
+document.getElementById("cover").style.display="none";
+document.getElementById("q1").style.display="block";
+
+}
+
+function next(){
+
+let q=document.querySelector('input[name="q'+current+'"]:checked');
+
+if(q && q.value==answers[current]){
 score++;
 }
 
-document.getElementById("result").innerHTML="Your Score: "+score;
+document.getElementById("q"+current).style.display="none";
+
+current++;
+
+if(current<=5){
+
+document.getElementById("q"+current).style.display="block";
+
+}else{
+
+document.getElementById("result").innerHTML="Your Score: "+score+"/5";
+document.getElementById("resultBox").style.display="block";
+
+}
 
 }
 
@@ -51,9 +97,18 @@ document.getElementById("result").innerHTML="Your Score: "+score;
 
 <body>
 
-<div class="box">
+<div class="container" id="cover">
 
-<h2>Mock Test</h2>
+<h1>Online Mock Test</h1>
+
+<p>5 Questions | No Negative Marking</p>
+
+<button onclick="startTest()">Start Test</button>
+
+</div>
+
+
+<div class="container question" id="q1">
 
 <p>1. भारत की राजधानी क्या है?</p>
 
@@ -64,9 +119,78 @@ document.getElementById("result").innerHTML="Your Score: "+score;
 
 <br><br>
 
-<button onclick="check()">Submit</button>
+<button onclick="next()">Next</button>
 
-<h3 id="result"></h3>
+</div>
+
+
+<div class="container question" id="q2">
+
+<p>2. 2 + 2 = ?</p>
+
+<label><input type="radio" name="q2" value="a"> 3</label><br>
+<label><input type="radio" name="q2" value="b"> 4</label><br>
+<label><input type="radio" name="q2" value="c"> 5</label><br>
+<label><input type="radio" name="q2" value="d"> 6</label>
+
+<br><br>
+
+<button onclick="next()">Next</button>
+
+</div>
+
+
+<div class="container question" id="q3">
+
+<p>3. भारत का राष्ट्रीय पशु कौन सा है?</p>
+
+<label><input type="radio" name="q3" value="a"> शेर</label><br>
+<label><input type="radio" name="q3" value="b"> हाथी</label><br>
+<label><input type="radio" name="q3" value="c"> बाघ</label><br>
+<label><input type="radio" name="q3" value="d"> घोड़ा</label>
+
+<br><br>
+
+<button onclick="next()">Next</button>
+
+</div>
+
+
+<div class="container question" id="q4">
+
+<p>4. भारत का राष्ट्रीय ध्वज किसने डिजाइन किया?</p>
+
+<label><input type="radio" name="q4" value="a"> पिंगली वेंकैया</label><br>
+<label><input type="radio" name="q4" value="b"> गांधी जी</label><br>
+<label><input type="radio" name="q4" value="c"> नेहरू</label><br>
+<label><input type="radio" name="q4" value="d"> पटेल</label>
+
+<br><br>
+
+<button onclick="next()">Next</button>
+
+</div>
+
+
+<div class="container question" id="q5">
+
+<p>5. सूर्य किस दिशा से उगता है?</p>
+
+<label><input type="radio" name="q5" value="a"> पश्चिम</label><br>
+<label><input type="radio" name="q5" value="b"> उत्तर</label><br>
+<label><input type="radio" name="q5" value="c"> दक्षिण</label><br>
+<label><input type="radio" name="q5" value="d"> पूर्व</label>
+
+<br><br>
+
+<button onclick="next()">Submit</button>
+
+</div>
+
+
+<div class="container" id="resultBox" style="display:none">
+
+<h2 id="result"></h2>
 
 </div>
 
