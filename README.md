@@ -1,2 +1,8 @@
-# Mock-Test
-Online mock test platform for competitive exam practice with MCQ tests.
+# Mock Test Website
+
+This is a simple online mock test website for MCQ practice.
+
+Features:
+- Multiple choice questions
+- Online test interface
+- Result calculation
