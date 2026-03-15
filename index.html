@@ -3,9 +3,63 @@
 
 <head>
 
+<meta charset="UTF-8">
+
 <title>Mock Test</title>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+
+body{
+font-family:Arial;
+background:linear-gradient(120deg,#4facfe,#00f2fe);
+margin:0;
+padding:0;
+}
+
+.container{
+max-width:750px;
+margin:auto;
+background:white;
+margin-top:40px;
+padding:30px;
+border-radius:10px;
+box-shadow:0 0 12px rgba(0,0,0,0.2);
+}
+
+.center{
+text-align:center;
+}
+
+button{
+background:#007bff;
+color:white;
+border:none;
+padding:10px 20px;
+border-radius:5px;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#0056b3;
+}
+
+.question{
+display:none;
+}
+
+.timer{
+font-size:25px;
+font-weight:bold;
+color:red;
+text-align:center;
+}
+
+</style>
 
 <script>
 
@@ -22,52 +76,16 @@ let answers={
 5:"D"
 };
 
-let questions={
-1:{
-q:"भारत की राजधानी क्या है?",
-A:"दिल्ली",
-B:"मुंबई",
-C:"कोलकाता",
-D:"चेन्नई"
-},
-
-2:{
-q:"2 + 2 = ?",
-A:"3",
-B:"4",
-C:"5",
-D:"6"
-},
-
-3:{
-q:"भारत का राष्ट्रीय पशु कौन सा है?",
-A:"शेर",
-B:"हाथी",
-C:"बाघ",
-D:"घोड़ा"
-},
-
-4:{
-q:"भारत का राष्ट्रीय ध्वज किसने डिजाइन किया?",
-A:"पिंगली वेंकैया",
-B:"गांधी जी",
-C:"नेहरू",
-D:"पटेल"
-},
-
-5:{
-q:"सूर्य किस दिशा से उगता है?",
-A:"पश्चिम",
-B:"उत्तर",
-C:"दक्षिण",
-D:"पूर्व"
-}
-
-};
-
 let userAnswers={};
 
-function startTest(){
+function nextCover(){
+
+document.getElementById("cover").style.display="none";
+document.getElementById("formBox").style.display="block";
+
+}
+
+function startCountdown(){
 
 name=document.getElementById("name").value;
 phone=document.getElementById("phone").value;
@@ -78,7 +96,23 @@ return;
 }
 
 document.getElementById("formBox").style.display="none";
+document.getElementById("countBox").style.display="block";
+
+let t=5;
+
+let timer=setInterval(function(){
+
+document.getElementById("count").innerHTML=t;
+
+t--;
+
+if(t<0){
+clearInterval(timer);
+document.getElementById("countBox").style.display="none";
 document.getElementById("q1").style.display="block";
+}
+
+},1000);
 
 }
 
@@ -101,11 +135,13 @@ document.getElementById("q"+current).style.display="none";
 current++;
 
 if(current<=5){
+
 document.getElementById("q"+current).style.display="block";
-}
-else{
+
+}else{
 
 document.getElementById("result").innerHTML="Score: "+score+"/5";
+
 document.getElementById("resultBox").style.display="block";
 
 }
@@ -116,40 +152,22 @@ function downloadPDF(){
 
 const { jsPDF } = window.jspdf;
 
-let doc=new jsPDF();
+let element=document.getElementById("resultBox");
 
-let y=20;
+html2canvas(element).then(canvas=>{
 
-doc.text("Mock Test Result",20,y); y+=10;
+let img=canvas.toDataURL("image/png");
 
-doc.text("Name: "+name,20,y); y+=8;
-doc.text("Phone: "+phone,20,y); y+=8;
+let pdf=new jsPDF();
 
-doc.text("Score: "+score+"/5",20,y); y+=10;
+let width=190;
+let height=(canvas.height*width)/canvas.width;
 
-for(let i=1;i<=5;i++){
+pdf.addImage(img,'PNG',10,10,width,height);
 
-let q=questions[i];
+pdf.save("Mock_Test_Result.pdf");
 
-doc.text("Q"+i+": "+q.q,20,y); y+=8;
-
-doc.text("A: "+q.A,25,y); y+=6;
-doc.text("B: "+q.B,25,y); y+=6;
-doc.text("C: "+q.C,25,y); y+=6;
-doc.text("D: "+q.D,25,y); y+=8;
-
-doc.text("Your Answer: "+(userAnswers[i]||"Not Attempted"),25,y); y+=6;
-
-doc.text("Correct Answer: "+answers[i],25,y); y+=10;
-
-if(y>270){
-doc.addPage();
-y=20;
-}
-
-}
-
-doc.save("Mock_Test_Result.pdf");
+});
 
 }
 
@@ -159,21 +177,83 @@ doc.save("Mock_Test_Result.pdf");
 
 <body>
 
-<div id="formBox">
+<div class="container center" id="cover">
 
-<h2>Enter Details</h2>
+<h2>HIMACHAL PRADESH</h2>
 
-Name:<br>
-<input type="text" id="name"><br><br>
+<h3>JUNIOR OFFICE ASSISTANT (IT)<br>
+COMPETITIVE EXAMINATION</h3>
 
-Phone:<br>
-<input type="text" id="phone"><br><br>
+<h3>FULL LENGTH MOCK TEST – 07</h3>
 
-<button onclick="startTest()">Start Test</button>
+<hr>
+
+<p>
+Total Questions : 100<br>
+Maximum Marks : 100<br>
+Time Allowed : 1 Hour 30 Minutes
+</p>
+
+<p><b>Section-wise Distribution</b></p>
+
+<p>
+Computer / IT : 70 Questions<br>
+Himachal Pradesh GK : 20 Questions<br>
+English Grammar : 5 Questions<br>
+Hindi Grammar : 3 Questions<br>
+Reasoning : 2 Questions
+</p>
+
+<hr>
+
+<p style="text-align:left">
+
+Instructions:<br><br>
+
+1. All questions are compulsory.<br>
+2. Each question carries one mark.<br>
+3. There is no negative marking.<br>
+4. Choose the most appropriate answer.<br>
+5. Use of calculator or electronic device is not permitted.<br>
+6. Each question has four options (A, B, C, D).<br>
+7. Use the provided OMR sheet to mark your answers carefully.
+
+</p>
+
+<p><i>Prepared for Practice Purpose Only</i></p>
+
+<br>
+
+<button onclick="nextCover()">Next</button>
 
 </div>
 
-<div id="q1" style="display:none">
+
+<div class="container" id="formBox" style="display:none">
+
+<h3>Candidate Details</h3>
+
+Name<br>
+<input type="text" id="name"><br><br>
+
+Phone Number<br>
+<input type="text" id="phone"><br><br>
+
+<button onclick="startCountdown()">Start Test</button>
+
+</div>
+
+
+<div class="container center" id="countBox" style="display:none">
+
+<h2>Test will start in</h2>
+
+<div class="timer" id="count">5</div>
+
+</div>
+
+
+<div class="container question" id="q1">
 
 <p>1. भारत की राजधानी क्या है?</p>
 
@@ -186,7 +266,8 @@ Phone:<br>
 
 </div>
 
-<div id="q2" style="display:none">
+
+<div class="container question" id="q2">
 
 <p>2. 2 + 2 = ?</p>
 
@@ -199,7 +280,8 @@ Phone:<br>
 
 </div>
 
-<div id="q3" style="display:none">
+
+<div class="container question" id="q3">
 
 <p>3. भारत का राष्ट्रीय पशु कौन सा है?</p>
 
@@ -212,7 +294,8 @@ Phone:<br>
 
 </div>
 
-<div id="q4" style="display:none">
+
+<div class="container question" id="q4">
 
 <p>4. भारत का राष्ट्रीय ध्वज किसने डिजाइन किया?</p>
 
@@ -225,7 +308,8 @@ Phone:<br>
 
 </div>
 
-<div id="q5" style="display:none">
+
+<div class="container question" id="q5">
 
 <p>5. सूर्य किस दिशा से उगता है?</p>
 
@@ -238,11 +322,12 @@ Phone:<br>
 
 </div>
 
-<div id="resultBox" style="display:none">
+
+<div class="container" id="resultBox" style="display:none">
 
 <h2 id="result"></h2>
 
-<button onclick="downloadPDF()">Download PDF</button>
+<button onclick="downloadPDF()">Download Result PDF</button>
 
 </div>
 
