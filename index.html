@@ -242,9 +242,36 @@ clearInterval(examTimer)
 
 document.getElementById("questionBox").style.display="none"
 
-document.getElementById("resultBox").style.display="block"
+let box=document.getElementById("resultBox")
 
-document.getElementById("score").innerHTML="Score : "+score+" / "+questions.length
+box.style.display="block"
+
+let html=""
+
+html+="<h2>Score : "+score+" / "+questions.length+"</h2>"
+
+for(let i=0;i<questions.length;i++){
+
+let q=questions[i]
+
+html+="<hr>"
+
+html+="<b>Q"+(i+1)+". "+q.q+"</b><br><br>"
+
+html+="A. "+q.A+"<br>"
+html+="B. "+q.B+"<br>"
+html+="C. "+q.C+"<br>"
+html+="D. "+q.D+"<br><br>"
+
+html+="Your Answer : "+(userAnswers[i+1] || "Not Attempted")+"<br>"
+
+html+="Correct Answer : "+q.ans+"<br>"
+
+}
+
+html+="<br><button onclick='downloadPDF()'>Download Result PDF</button>"
+
+box.innerHTML=html
 
 }
 
