@@ -443,34 +443,36 @@ async function downloadPDF(){
 
 const { jsPDF } = window.jspdf
 
-let element=document.getElementById("resultBox")
+let element = document.getElementById("resultBox")
 
-let canvas=await html2canvas(element,{scale:2})
+let canvas = await html2canvas(element,{scale:2})
 
-let img=canvas.toDataURL("image/png")
+let imgData = canvas.toDataURL("image/png")
 
-let pdf=new jsPDF("p","mm","a4")
+let pdf = new jsPDF("p","mm","a4")
 
-let imgWidth=180
-let pageHeight=270
-let imgHeight=canvas.height*imgWidth/canvas.width
+let pageWidth = 210
+let pageHeight = 297
 
-let heightLeft=imgHeight
-let position=0
+let imgWidth = 180
+let imgHeight = canvas.height * imgWidth / canvas.width
 
-pdf.addImage(img,"PNG",15,position+20,imgWidth,imgHeight)
+let heightLeft = imgHeight
+let position = 20
 
-heightLeft-=pageHeight
+pdf.addImage(imgData,'PNG',15,position,imgWidth,imgHeight)
 
-while(heightLeft>0){
+heightLeft -= (pageHeight-40)
 
-position=heightLeft-imgHeight
+while(heightLeft > 0){
+
+position = heightLeft - imgHeight + 20
 
 pdf.addPage()
 
-pdf.addImage(img,"PNG",15,position+20,imgWidth,imgHeight)
+pdf.addImage(imgData,'PNG',15,position,imgWidth,imgHeight)
 
-heightLeft-=pageHeight
+heightLeft -= (pageHeight-40)
 
 }
 
