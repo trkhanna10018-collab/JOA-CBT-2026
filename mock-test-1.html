@@ -12,6 +12,11 @@
 body{
 font-family:Arial;
 background:#f5f5f5;
+margin:0;
+padding:0;
+}
+
+h2{
 text-align:center;
 }
 
@@ -22,12 +27,14 @@ margin:20px auto;
 width:90%;
 max-width:700px;
 border-radius:10px;
+text-align:left;
 }
 
 .option{
 display:block;
-margin:10px;
+margin:8px 0;
 font-size:18px;
+text-align:left;
 }
 
 button{
@@ -41,6 +48,8 @@ cursor:pointer;
 font-size:20px;
 color:red;
 font-weight:bold;
+text-align:center;
+margin-top:10px;
 }
 
 </style>
@@ -49,11 +58,14 @@ font-weight:bold;
 <body>
 
 <h2>JOA IT CBT Mock Test</h2>
+
 <div id="timer"></div>
 
 <!-- NAME PHONE -->
 
 <div id="formBox" class="box">
+
+<h3>Enter Details</h3>
 
 <input id="name" placeholder="Enter Name"><br><br>
 
@@ -126,8 +138,11 @@ document.getElementById("timer").innerHTML=
 time--
 
 if(time<0){
+
 clearInterval(timerInterval)
+
 showResult()
+
 }
 
 },1000)
@@ -175,10 +190,12 @@ document.getElementById("questionBox").innerHTML=html
 
 function optionHTML(letter,text){
 
-return `<label class="option">
+return `
+<label class="option">
 <input type="radio" name="ans" value="${letter}">
 ${letter}. ${text}
-</label>`
+</label>
+`
 
 }
 
@@ -229,12 +246,12 @@ questions.forEach((q,i)=>{
 
 html+="<hr>"
 
-html+="<b>Q"+(i+1)+": "+q.q+"</b><br>"
+html+="<b>Q"+(i+1)+": "+q.q+"</b><br><br>"
 
 html+="A. "+q.A+"<br>"
 html+="B. "+q.B+"<br>"
 html+="C. "+q.C+"<br>"
-html+="D. "+q.D+"<br>"
+html+="D. "+q.D+"<br><br>"
 
 html+="Your Answer: "+(userAnswers[i] || "Not Attempted")+"<br>"
 
@@ -266,9 +283,7 @@ let width=190
 
 let height=canvas.height*width/canvas.width
 
-let y=10
-
-pdf.addImage(img,"PNG",10,y,width,height)
+pdf.addImage(img,"PNG",10,10,width,height)
 
 pdf.save("Mock_Test_Result.pdf")
 
