@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 <title>JOA IT Mock Test</title>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
@@ -15,7 +17,9 @@ margin:0;
 padding:0;
 }
 
-h2{text-align:center}
+h2{
+text-align:center;
+}
 
 .box{
 background:white;
@@ -44,9 +48,11 @@ font-size:20px;
 color:red;
 font-weight:bold;
 text-align:center;
+margin-top:10px;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -67,6 +73,7 @@ text-align:center;
 </div>
 
 <div id="questionBox" class="box" style="display:none"></div>
+
 <div id="resultBox" class="box" style="display:none"></div>
 
 <script>
@@ -121,8 +128,7 @@ timerInterval=setInterval(()=>{
 let min=Math.floor(time/60)
 let sec=time%60
 
-document.getElementById("timer").innerHTML=
-"Time Left: "+min+":"+sec
+document.getElementById("timer").innerHTML="Time Left: "+min+":"+sec
 
 time--
 
@@ -204,9 +210,13 @@ score++
 current++
 
 if(current<questions.length){
+
 showQuestion()
+
 }else{
+
 showResult()
+
 }
 
 }
@@ -248,58 +258,40 @@ document.getElementById("resultBox").style.display="block"
 
 }
 
-function downloadPDF(){
+async function downloadPDF(){
 
 const { jsPDF } = window.jspdf
 
-let pdf = new jsPDF()
+let element=document.getElementById("resultBox")
 
-let x=15
-let y=20
-let line=7
+let canvas=await html2canvas(element,{scale:2})
 
-pdf.setFont("Helvetica")
-pdf.setFontSize(12)
+let imgData=canvas.toDataURL("image/png")
 
-pdf.text("JOA IT MOCK TEST RESULT",x,y)
-y+=10
+let pdf=new jsPDF("p","mm","a4")
 
-pdf.text("Name: "+studentName,x,y)
-y+=line
+let imgWidth=190
+let pageHeight=297
+let imgHeight=canvas.height*imgWidth/canvas.width
 
-pdf.text("Phone: "+studentPhone,x,y)
-y+=line
+let heightLeft=imgHeight
+let position=10
 
-pdf.text("Score: "+score+" / "+questions.length,x,y)
-y+=10
+pdf.addImage(imgData,"PNG",10,position,imgWidth,imgHeight)
 
-questions.forEach((q,i)=>{
+heightLeft-=pageHeight
 
-if(y>270){
+while(heightLeft>0){
+
+position=heightLeft-imgHeight
+
 pdf.addPage()
-y=20
+
+pdf.addImage(imgData,"PNG",10,position,imgWidth,imgHeight)
+
+heightLeft-=pageHeight
+
 }
-
-let qEng = pdf.splitTextToSize("Q"+(i+1)+": "+q.eng,180)
-pdf.text(qEng,x,y)
-y+=qEng.length*line
-
-let qHin = pdf.splitTextToSize(q.hin,180)
-pdf.text(qHin,x,y)
-y+=qHin.length*line
-
-pdf.text("A. "+q.A,x+5,y); y+=line
-pdf.text("B. "+q.B,x+5,y); y+=line
-pdf.text("C. "+q.C,x+5,y); y+=line
-pdf.text("D. "+q.D,x+5,y); y+=line
-
-pdf.text("Your Answer: "+(userAnswers[i]||"Not Attempted"),x+5,y)
-y+=line
-
-pdf.text("Correct Answer: "+q.ans,x+5,y)
-y+=10
-
-})
 
 pdf.save("Mock_Test_Result.pdf")
 
