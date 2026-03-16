@@ -439,44 +439,64 @@ document.getElementById("resultBox").style.display="block"
 
 }
 
-async function downloadPDF(){
+function downloadPDF(){
 
 const { jsPDF } = window.jspdf
 
-let element = document.getElementById("resultBox")
-
-let canvas = await html2canvas(element,{scale:2})
-
-let imgData = canvas.toDataURL("image/png")
-
 let pdf = new jsPDF("p","mm","a4")
 
-let pageWidth = 210
-let pageHeight = 297
+let x = 15
+let y = 20
+let line = 7
 
-let imgWidth = 180
-let imgHeight = canvas.height * imgWidth / canvas.width
+pdf.setFont("Times","Normal")
+pdf.setFontSize(12)
 
-let heightLeft = imgHeight
-let position = 20
+pdf.text("JOA IT MOCK TEST RESULT",x,y)
+y+=10
 
-pdf.addImage(imgData,'PNG',15,position,imgWidth,imgHeight)
+pdf.text("Name: "+studentName,x,y)
+y+=line
 
-heightLeft -= (pageHeight-40)
+pdf.text("Phone: "+studentPhone,x,y)
+y+=line
 
-while(heightLeft > 0){
+pdf.text("Score: "+score+" / "+questions.length,x,y)
+y+=10
 
-position = heightLeft - imgHeight + 20
+questions.forEach((q,i)=>{
 
+if(y>270){
 pdf.addPage()
-
-pdf.addImage(imgData,'PNG',15,position,imgWidth,imgHeight)
-
-heightLeft -= (pageHeight-40)
-
+y=20
 }
 
+pdf.text("Q"+(i+1)+": "+q.q,x,y)
+y+=line
+
+pdf.text("A. "+q.A,x+5,y)
+y+=line
+
+pdf.text("B. "+q.B,x+5,y)
+y+=line
+
+pdf.text("C. "+q.C,x+5,y)
+y+=line
+
+pdf.text("D. "+q.D,x+5,y)
+y+=line
+
+pdf.text("Your Answer: "+(userAnswers[i]||"Not Attempted"),x+5,y)
+y+=line
+
+pdf.text("Correct Answer: "+q.ans,x+5,y)
+y+=10
+
+})
+
 pdf.save("Mock_Test_Result.pdf")
+
+}
 
 }
 </script>
