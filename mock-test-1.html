@@ -67,7 +67,6 @@ text-align:center;
 </div>
 
 <div id="questionBox" class="box" style="display:none"></div>
-
 <div id="resultBox" class="box" style="display:none"></div>
 
 <script>
@@ -205,13 +204,9 @@ score++
 current++
 
 if(current<questions.length){
-
 showQuestion()
-
 }else{
-
 showResult()
-
 }
 
 }
@@ -253,7 +248,7 @@ document.getElementById("resultBox").style.display="block"
 
 }
 
-async function downloadPDF(){
+function downloadPDF(){
 
 const { jsPDF } = window.jspdf
 
@@ -263,6 +258,7 @@ let x=15
 let y=20
 let line=7
 
+pdf.setFont("Helvetica")
 pdf.setFontSize(12)
 
 pdf.text("JOA IT MOCK TEST RESULT",x,y)
@@ -284,12 +280,13 @@ pdf.addPage()
 y=20
 }
 
-pdf.text("Q"+(i+1)+": "+q.eng,x,y)
-y+=line
+let qEng = pdf.splitTextToSize("Q"+(i+1)+": "+q.eng,180)
+pdf.text(qEng,x,y)
+y+=qEng.length*line
 
-let hinText = pdf.splitTextToSize(q.hin,180)
-pdf.text(hinText,x,y)
-y+=hinText.length*line
+let qHin = pdf.splitTextToSize(q.hin,180)
+pdf.text(qHin,x,y)
+y+=qHin.length*line
 
 pdf.text("A. "+q.A,x+5,y); y+=line
 pdf.text("B. "+q.B,x+5,y); y+=line
