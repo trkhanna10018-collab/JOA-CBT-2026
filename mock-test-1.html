@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JOA IT Mock Test</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f5f5f5;
+text-align:center;
+}
+
+.box{
+background:white;
+padding:20px;
+margin:20px auto;
+width:90%;
+max-width:700px;
+border-radius:10px;
+}
+
+.option{
+display:block;
+margin:10px;
+font-size:18px;
+}
+
+button{
+padding:10px 20px;
+font-size:16px;
+margin-top:15px;
+cursor:pointer;
+}
+
+#timer{
+font-size:20px;
+color:red;
+font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>JOA IT CBT Mock Test</h2>
+<div id="timer"></div>
+
+<!-- NAME PHONE -->
+
+<div id="formBox" class="box">
+
+<input id="name" placeholder="Enter Name"><br><br>
+
+<input id="phone" placeholder="Enter Phone"><br><br>
+
+<button onclick="beginTest()">Start Test</button>
+
+</div>
+
+<!-- QUESTION -->
+
+<div id="questionBox" class="box" style="display:none"></div>
+
+<!-- RESULT -->
+
+<div id="resultBox" class="box" style="display:none"></div>
+
+<script>
+
+let questions=[
+
+{
+q:"Which memory is used to store BIOS in a computer?",
+A:"RAM",
+B:"ROM",
+C:"Cache",
+D:"Register",
+ans:"B"
+},
+
+{
+q:"राजपुत्र शब्द में कौन सा समास है?",
+A:"द्वंद्व",
+B:"कर्मधारय",
+C:"तत्पुरुष",
+D:"बहुव्रीहि",
+ans:"C"
+},
+
+{
+q:"Which protocol is used for secure web communication?",
+A:"HTTP",
+B:"FTP",
+C:"HTTPS",
+D:"SMTP",
+ans:"C"
+}
+
+]
+
+let current=0
+let score=0
+let userAnswers={}
+let studentName=""
+let studentPhone=""
+
+let time=5400
+let timerInterval
+
+function startTimer(){
+
+timerInterval=setInterval(()=>{
+
+let min=Math.floor(time/60)
+let sec=time%60
+
+document.getElementById("timer").innerHTML=
+"Time Left: "+min+":"+sec
+
+time--
+
+if(time<0){
+clearInterval(timerInterval)
+showResult()
+}
+
+},1000)
+
+}
+
+function beginTest(){
+
+studentName=document.getElementById("name").value
+studentPhone=document.getElementById("phone").value
+
+if(studentName=="" || studentPhone==""){
+alert("Enter name and phone")
+return
+}
+
+document.getElementById("formBox").style.display="none"
+
+document.getElementById("questionBox").style.display="block"
+
+setTimeout(startTimer,5000)
+
+showQuestion()
+
+}
+
+function showQuestion(){
+
+let q=questions[current]
+
+let html=""
+
+html+="<h3>Q"+(current+1)+": "+q.q+"</h3>"
+
+html+=optionHTML("A",q.A)
+html+=optionHTML("B",q.B)
+html+=optionHTML("C",q.C)
+html+=optionHTML("D",q.D)
+
+html+="<button onclick='nextQuestion()'>Next</button>"
+
+document.getElementById("questionBox").innerHTML=html
+
+}
+
+function optionHTML(letter,text){
+
+return `<label class="option">
+<input type="radio" name="ans" value="${letter}">
+${letter}. ${text}
+</label>`
+
+}
+
+function nextQuestion(){
+
+let selected=document.querySelector('input[name="ans"]:checked')
+
+if(selected){
+
+userAnswers[current]=selected.value
+
+if(selected.value==questions[current].ans){
+score++
+}
+
+}
+
+current++
+
+if(current<questions.length){
+
+showQuestion()
+
+}else{
+
+showResult()
+
+}
+
+}
+
+function showResult(){
+
+clearInterval(timerInterval)
+
+document.getElementById("questionBox").style.display="none"
+
+let html=""
+
+html+="<h3>Result</h3>"
+
+html+="Name: "+studentName+"<br>"
+html+="Phone: "+studentPhone+"<br><br>"
+
+html+="Score: "+score+" / "+questions.length+"<br><br>"
+
+questions.forEach((q,i)=>{
+
+html+="<hr>"
+
+html+="<b>Q"+(i+1)+": "+q.q+"</b><br>"
+
+html+="A. "+q.A+"<br>"
+html+="B. "+q.B+"<br>"
+html+="C. "+q.C+"<br>"
+html+="D. "+q.D+"<br>"
+
+html+="Your Answer: "+(userAnswers[i] || "Not Attempted")+"<br>"
+
+html+="Correct Answer: "+q.ans+"<br>"
+
+})
+
+html+="<br><button onclick='downloadPDF()'>Download PDF</button>"
+
+document.getElementById("resultBox").innerHTML=html
+
+document.getElementById("resultBox").style.display="block"
+
+}
+
+async function downloadPDF(){
+
+const { jsPDF } = window.jspdf
+
+let element=document.getElementById("resultBox")
+
+let canvas=await html2canvas(element,{scale:2})
+
+let img=canvas.toDataURL("image/png")
+
+let pdf=new jsPDF("p","mm","a4")
+
+let width=190
+
+let height=canvas.height*width/canvas.width
+
+let y=10
+
+pdf.addImage(img,"PNG",10,y,width,height)
+
+pdf.save("Mock_Test_Result.pdf")
+
+}
+
+</script>
+
+</body>
+</html>
