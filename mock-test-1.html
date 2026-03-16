@@ -15,9 +15,7 @@ margin:0;
 padding:0;
 }
 
-h2{
-text-align:center;
-}
+h2{text-align:center}
 
 .box{
 background:white;
@@ -46,7 +44,6 @@ font-size:20px;
 color:red;
 font-weight:bold;
 text-align:center;
-margin-top:10px;
 }
 
 </style>
@@ -63,7 +60,6 @@ margin-top:10px;
 <h3>Enter Details</h3>
 
 <input id="name" placeholder="Enter Name"><br><br>
-
 <input id="phone" placeholder="Enter Phone"><br><br>
 
 <button onclick="beginTest()">Start Test</button>
@@ -79,7 +75,6 @@ margin-top:10px;
 let questions=[
 
 {
-id:1,
 eng:"What is OneDrive in Microsoft 365?",
 hin:"Microsoft 365 में OneDrive क्या है?",
 A:"A web browser / वेब ब्राउज़र",
@@ -90,7 +85,6 @@ ans:"B"
 },
 
 {
-id:2,
 eng:"Which option is used to upload files to OneDrive?",
 hin:"OneDrive में फ़ाइल अपलोड करने के लिए कौन-सा विकल्प उपयोग किया जाता है?",
 A:"Import / इम्पोर्ट",
@@ -101,7 +95,6 @@ ans:"B"
 },
 
 {
-id:3,
 eng:"Which option allows downloading a file from OneDrive to a local computer?",
 hin:"OneDrive से फ़ाइल को लोकल कंप्यूटर में डाउनलोड करने के लिए कौन-सा विकल्प है?",
 A:"Export / एक्सपोर्ट",
@@ -260,7 +253,7 @@ document.getElementById("resultBox").style.display="block"
 
 }
 
-function downloadPDF(){
+async function downloadPDF(){
 
 const { jsPDF } = window.jspdf
 
