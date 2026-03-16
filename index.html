@@ -248,7 +248,11 @@ box.style.display="block"
 
 let html=""
 
-html+="<h2 style='text-align:center'>Score : "+score+" / "+questions.length+"</h2>"
+html+="<h2 style='text-align:center'>JOA IT MOCK TEST RESULT</h2>"
+
+html+="<b>Name :</b> "+name+"<br>"
+html+="<b>Phone :</b> "+phone+"<br>"
+html+="<b>Score :</b> "+score+" / "+questions.length+"<br><br>"
 
 for(let i=0;i<questions.length;i++){
 
@@ -256,7 +260,7 @@ let q=questions[i]
 
 html+="<hr>"
 
-html+="<b>Q"+(i+1)+". "+q.q+"</b><br>"
+html+="<b>Q"+(i+1)+". "+q.q+"</b><br><br>"
 
 html+="A. "+q.A+"<br>"
 html+="B. "+q.B+"<br>"
