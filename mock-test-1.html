@@ -1390,6 +1390,45 @@ html+="<br><button onclick='downloadPDF()'>Download Result PDF</button>"
 box.innerHTML="<div style='text-align:left'>"+html+"</div>"
 
 }
+
+async function downloadPDF(){
+
+const { jsPDF } = window.jspdf
+
+let element=document.getElementById("resultBox")
+
+let canvas=await html2canvas(element,{scale:2})
+
+let imgData=canvas.toDataURL("image/jpeg",0.6)
+
+let pdf=new jsPDF("p","mm","a4")
+
+let imgWidth=190
+let pageHeight=297
+let imgHeight=canvas.height*imgWidth/canvas.width
+
+let heightLeft=imgHeight
+let position=10
+
+pdf.addImage(imgData,"JPEG",10,position,imgWidth,imgHeight)
+
+heightLeft-=pageHeight
+
+while(heightLeft>0){
+
+position=heightLeft-imgHeight
+
+pdf.addPage()
+
+pdf.addImage(imgData,"JPEG",10,position,imgWidth,imgHeight)
+
+heightLeft-=pageHeight
+
+}
+
+pdf.save("Mock_Test_Result.pdf")
+
+}
 </script>
 
 </body>
