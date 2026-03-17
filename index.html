@@ -1261,8 +1261,8 @@ examTimer=setInterval(function(){
 let min=Math.floor(examTime/60)
 let sec=examTime%60
 
-document.getElementById("examTimer").innerHTML=
-"Time Left : "+min+":"+(sec<10?"0":"")+sec
+document.getElementById("examTimer").innerHTML =
+"<span>⏱ Time Left : "+min+":"+(sec<10?"0":"")+sec+"</span>"
 
 examTime--
 
