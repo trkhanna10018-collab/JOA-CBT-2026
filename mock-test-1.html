@@ -11,45 +11,77 @@
 <style>
 
 body{
-font-family:"Noto Sans Devanagari","Mangal","Nirmala UI",Arial,sans-serif;
-background:#f5f5f5;
+font-family:Arial;
+background:#e8f0fe;
 margin:0;
 padding:0;
 }
 
 h2{
 text-align:center;
+margin-top:30px;
 }
 
-.box{
+.container{
+max-width:800px;
+margin:auto;
 background:white;
-padding:20px;
-margin:20px auto;
-width:90%;
-max-width:750px;
-border-radius:10px;
+margin-top:40px;
+padding:30px;
+border-radius:8px;
+box-shadow:0 4px 15px rgba(0,0,0,0.15);
 }
 
 .option{
 display:block;
-margin:8px 0;
+margin-top:8px;
 font-size:18px;
-text-align:left;
 }
 
 button{
-padding:10px 20px;
+background:#2563eb;
+color:white;
+border:none;
+padding:10px 18px;
+border-radius:5px;
 font-size:16px;
-margin-top:15px;
 cursor:pointer;
+margin-top:15px;
 }
 
-#timer{
-font-size:20px;
-color:red;
+button:hover{
+background:#1d4ed8;
+}
+
+.timer{
+font-size:26px;
+color:#b91c1c;
 font-weight:bold;
-text-align:center;
-margin-top:10px;
+
+margin:15px 0 0 20px;
+
+background:#fff;
+padding:8px 16px;
+
+border-radius:8px;
+
+box-shadow:0 3px 8px rgba(0,0,0,0.15);
+
+display:inline-block;
+
+border-left:5px solid #ef4444;
+
+position:sticky;
+top:10px;
+left:10px;
+}
+
+#questionBox h3{
+font-size:22px;
+}
+
+#questionBox p{
+font-size:20px;
 }
 
 </style>
@@ -60,9 +92,9 @@ margin-top:10px;
 
 <h2>JOA IT CBT Mock Test</h2>
 
-<div id="timer"></div>
+<div class="timer" id="timer"></div>
 
-<div id="formBox" class="box">
+<div class="container" id="formBox">
 
 <h3>Enter Details</h3>
 
@@ -73,13 +105,14 @@ margin-top:10px;
 
 </div>
 
-<div id="questionBox" class="box" style="display:none"></div>
+<div class="container" id="questionBox" style="display:none"></div>
 
-<div id="resultBox" class="box" style="display:none"></div>
+<div class="container" id="resultBox" style="display:none"></div>
 
 <script>
 
 let questions=[
+
 {
 id:1,
 en:"What is OneDrive in Microsoft 365?",
@@ -298,7 +331,7 @@ B:"Insert",
 C:"Layout",
 D:"Review",
 ans:"B"
-}, 
+},
 
 {
 id:21,
@@ -518,7 +551,7 @@ B:"Auto Fit",
 C:"Fit Column",
 D:"Column Adjust",
 ans:"B"
-}, 
+},
 
 {
 id:41,
@@ -1179,33 +1212,37 @@ C:"बहुव्रीहि समास",
 D:"तत्पुरुष समास",
 ans:"D"
 }
-
-
 ]
-
 let current=0
 let score=0
 let userAnswers={}
+
 let studentName=""
 let studentPhone=""
 
-let time=5400
-let timerInterval
+let examTime=5400
+let examTimer
 
-function startTimer(){
+/* START TIMER */
 
-timerInterval=setInterval(()=>{
+function startExamTimer(){
 
-let min=Math.floor(time/60)
-let sec=time%60
+examTimer=setInterval(function(){
 
-document.getElementById("timer").innerHTML="Time Left: "+min+":"+sec
+let min=Math.floor(examTime/60)
+let sec=examTime%60
 
-time--
+document.getElementById("examTimer").innerHTML=
+"<span>⏱ Time Left : "+min+":"+(sec<10?"0":"")+sec+"</span>"
 
-if(time<0){
+examTime--
 
-clearInterval(timerInterval)
+if(examTime<0){
+
+clearInterval(examTimer)
+
+alert("Time Over! Test Submitted")
+
 showResult()
 
 }
@@ -1214,24 +1251,34 @@ showResult()
 
 }
 
+/* BEGIN TEST */
+
 function beginTest(){
 
 studentName=document.getElementById("name").value
 studentPhone=document.getElementById("phone").value
 
 if(studentName=="" || studentPhone==""){
+
 alert("Enter name and phone")
+
 return
+
 }
 
 document.getElementById("formBox").style.display="none"
+
 document.getElementById("questionBox").style.display="block"
 
-setTimeout(startTimer,5000)
+document.getElementById("examTimer").style.display="block"
+
+startExamTimer()
 
 showQuestion()
 
 }
+
+/* SHOW QUESTION */
 
 function showQuestion(){
 
@@ -1239,30 +1286,21 @@ let q=questions[current]
 
 let html=""
 
-html+="<h3>Q"+(current+1)+": "+q.en+"</h3>"
-html+="<p>"+(q.hi || "")+"</p>"
+html+="<h3>Q"+(current+1)+". "+q.en+"</h3>"
+html+="<p>"+q.hi+"</p>"
 
-html+=optionHTML("A",q.A)
-html+=optionHTML("B",q.B)
-html+=optionHTML("C",q.C)
-html+=optionHTML("D",q.D)
+html+='<label class="option"><input type="radio" name="ans" value="A"> A. '+q.A+'</label>'
+html+='<label class="option"><input type="radio" name="ans" value="B"> B. '+q.B+'</label>'
+html+='<label class="option"><input type="radio" name="ans" value="C"> C. '+q.C+'</label>'
+html+='<label class="option"><input type="radio" name="ans" value="D"> D. '+q.D+'</label>'
 
-html+="<button onclick='nextQuestion()'>Next</button>"
+html+="<br><button onclick='nextQuestion()'>Next</button>"
 
 document.getElementById("questionBox").innerHTML=html
 
 }
 
-function optionHTML(letter,text){
-
-return `
-<label class="option">
-<input type="radio" name="ans" value="${letter}">
-${letter}. ${text}
-</label>
-`
-
-}
+/* NEXT QUESTION */
 
 function nextQuestion(){
 
@@ -1273,7 +1311,9 @@ if(selected){
 userAnswers[current]=selected.value
 
 if(selected.value==questions[current].ans){
+
 score++
+
 }
 
 }
@@ -1294,22 +1334,29 @@ showResult()
 
 function showResult(){
 
-clearInterval(timerInterval)
+clearInterval(examTimer)
 
 document.getElementById("questionBox").style.display="none"
 
+let box=document.getElementById("resultBox")
+
+box.style.display="block"
+
 let html=""
 
-html+="<h3>Result</h3>"
-html+="Name: "+studentName+"<br>"
-html+="Phone: "+studentPhone+"<br><br>"
-html+="Score: "+score+" / "+questions.length+"<br><br>"
+html+="<h2 style='text-align:center'>JOA IT MOCK TEST RESULT</h2>"
 
-questions.forEach((q,i)=>{
+html+="<b>Name :</b> "+studentName+"<br>"
+html+="<b>Phone :</b> "+studentPhone+"<br>"
+html+="<b>Score :</b> "+score+" / "+questions.length+"<br><br>"
+
+for(let i=0;i<questions.length;i++){
+
+let q=questions[i]
 
 html+="<hr>"
 
-html+="<b>Q"+(i+1)+": "+q.en+"</b><br>"
+html+="<b>Q"+(i+1)+". "+q.en+"</b><br>"
 html+=q.hi+"<br><br>"
 
 html+="A. "+q.A+"<br>"
@@ -1317,58 +1364,19 @@ html+="B. "+q.B+"<br>"
 html+="C. "+q.C+"<br>"
 html+="D. "+q.D+"<br><br>"
 
-html+="Your Answer: "+(userAnswers[i] || "Not Attempted")+"<br>"
-html+="Correct Answer: "+q.ans+"<br>"
+html+="Your Answer : "+(userAnswers[i] || "Not Attempted")+"<br>"
 
-})
-
-html+="<br><button onclick='downloadPDF()'>Download PDF</button>"
-
-document.getElementById("resultBox").innerHTML=html
-document.getElementById("resultBox").style.display="block"
+html+="Correct Answer : "+q.ans+"<br>"
 
 }
 
-async function downloadPDF(){
+html+="<br><button onclick='downloadPDF()'>Download Result PDF</button>"
 
-const { jsPDF } = window.jspdf
-
-let element=document.getElementById("resultBox")
-
-let canvas=await html2canvas(element,{scale:2})
-
-let imgData=canvas.toDataURL("image/jpeg",0.5)
-
-let pdf=new jsPDF("p","mm","a4")
-
-let imgWidth=190
-let pageHeight=297
-let imgHeight=canvas.height*imgWidth/canvas.width
-
-let heightLeft=imgHeight
-let position=10
-
-pdf.addImage(imgData,"JPEG",10,position,imgWidth,imgHeight)
-
-heightLeft-=pageHeight
-
-while(heightLeft>0){
-
-position=heightLeft-imgHeight
-
-pdf.addPage()
-
-pdf.addImage(imgData,"JPEG",10,position,imgWidth,imgHeight)
-
-heightLeft-=pageHeight
+box.innerHTML="<div style='text-align:left'>"+html+"</div>"
 
 }
-
-pdf.save("Mock_Test_Result.pdf")
-
-}
-
 </script>
 
 </body>
+
 </html>
