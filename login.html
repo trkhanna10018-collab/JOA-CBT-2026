@@ -1,35 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <title>Login</title>
 
 <style>
 body{
-font-family:Arial;
-background:#e8f0fe;
-text-align:center;
-padding:50px;
+margin:0;
+font-family:Arial, sans-serif;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#667eea,#764ba2);
 }
 
-..container{
+.container{
 background:white;
 padding:40px;
-border-radius:15px;
-width:380px;
-max-width:90%;
-margin:auto;
-box-shadow:0 10px 25px rgba(0,0,0,0.2);
-transition:0.3s;
+border-radius:20px;
+width:350px;
+text-align:center;
+box-shadow:0 20px 40px rgba(0,0,0,0.3);
+}
+
+h3{
+margin-bottom:25px;
+color:#333;
+}
+
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border-radius:10px;
+border:1px solid #ccc;
+outline:none;
 }
 
 button{
-padding:10px 20px;
-background:#4CAF50;
-color:white;
+width:100%;
+padding:12px;
 border:none;
-border-radius:5px;
+border-radius:10px;
+background:linear-gradient(45deg,#667eea,#764ba2);
+color:white;
+font-size:16px;
 cursor:pointer;
+}
+
+button:hover{
+transform:scale(1.05);
 }
 </style>
 
@@ -38,36 +58,32 @@ cursor:pointer;
 <body>
 
 <div class="container">
-
 <h3>Login to Access Mock Tests</h3>
 
-<input id="user" placeholder="Username"><br><br>
-<input id="pass" type="password" placeholder="Password"><br><br>
+<input id="username" placeholder="Username">
+<input id="password" type="password" placeholder="Password">
 
 <button onclick="login()">Login</button>
-
 </div>
 
 <script>
 
 function login(){
 
-let u=document.getElementById("user").value
-let p=document.getElementById("pass").value
+let u=document.getElementById("username").value
+let p=document.getElementById("password").value
 
+// ✅ 3 USERS
 if(
-(u=="user1" || u=="user2" || u=="user3")
-&& p=="1234"
+(u=="user1" && p=="123") ||
+(u=="user2" && p=="123") ||
+(u=="user3" && p=="123")
 ){
-
-localStorage.setItem("login","yes")
-
+localStorage.setItem("mockLogin","yes")
 window.location.href="index.html"
-
-}else{
-
+}
+else{
 alert("Wrong Username or Password")
-
 }
 
 }
