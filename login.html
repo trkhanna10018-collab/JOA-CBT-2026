@@ -33,7 +33,23 @@ color:white;
 box-shadow:0 10px 30px rgba(0,0,0,0.3);
 margin-bottom:25px;
 }
+.highlightBox{
+background:linear-gradient(45deg,#facc15,#f97316);
+color:black;
+font-weight:bold;
+font-size:20px;
+text-align:center;
+padding:20px;
+margin:20px;
+border-radius:15px;
+box-shadow:0 10px 30px rgba(0,0,0,0.4);
+animation:pop 1s infinite alternate;
+}
 
+@keyframes pop{
+from{transform:scale(1);}
+to{transform:scale(1.05);}
+}
 .infoBox h1{font-size:28px;margin:5px;}
 .infoBox h2{font-size:20px;margin:5px;}
 .infoBox h3{font-size:14px;margin:10px;}
@@ -147,6 +163,14 @@ font-weight:bold;
 <input id="password" type="password" placeholder="Password">
 
 <button onclick="login()">Login</button>
+
+</div>
+<div class="highlightBox">
+🔥 Full Mock Test Access @ ₹199
+
+<br><br>
+
+📞 Call / WhatsApp: 8278847614
 
 </div>
 
