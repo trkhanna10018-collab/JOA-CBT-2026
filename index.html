@@ -90,7 +90,12 @@ font-size:20px;
 font-size:18px;
 }
 </style>
-
+<!-- ✅ नया script (security check) -->
+<script>
+if(localStorage.getItem("mockLogin")!="yes"){
+window.location.href="login.html"
+}
+</script>
 <script>
 
 let name=""
