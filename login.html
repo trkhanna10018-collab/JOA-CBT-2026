@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Login</title>
+
+<style>
+body{
+font-family:Arial;
+background:#e8f0fe;
+text-align:center;
+padding:50px;
+}
+
+.container{
+background:white;
+padding:30px;
+border-radius:10px;
+width:300px;
+margin:auto;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+
+button{
+padding:10px 20px;
+background:#4CAF50;
+color:white;
+border:none;
+border-radius:5px;
+cursor:pointer;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h3>Login to Access Mock Tests</h3>
+
+<input id="user" placeholder="Username"><br><br>
+<input id="pass" type="password" placeholder="Password"><br><br>
+
+<button onclick="login()">Login</button>
+
+</div>
+
+<script>
+
+function login(){
+
+let u=document.getElementById("user").value
+let p=document.getElementById("pass").value
+
+if(
+(u=="user1" || u=="user2" || u=="user3")
+&& p=="1234"
+){
+
+localStorage.setItem("login","yes")
+
+window.location.href="index.html"
+
+}else{
+
+alert("Wrong Username or Password")
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
