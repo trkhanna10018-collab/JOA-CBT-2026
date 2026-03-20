@@ -13,8 +13,8 @@
 body{
 margin:0;
 font-family:'Segoe UI', sans-serif;
-background:linear-gradient(180deg,#6d63ff,#6a5acd);
-color:white;
+background:linear-gradient(180deg,#e0e7ff,#c7d2fe);
+color:#1e293b;
 }
 
 /* HEADER */
@@ -23,7 +23,7 @@ text-align:center;
 padding:25px 10px;
 font-size:26px;
 font-weight:bold;
-color:#ffd166;
+color:#4f46e5;
 }
 
 /* TIMER */
@@ -32,6 +32,7 @@ text-align:center;
 font-size:22px;
 font-weight:bold;
 margin-top:10px;
+color:#dc2626;
 }
 
 /* CARD */
@@ -39,9 +40,9 @@ margin-top:10px;
 max-width:750px;
 margin:20px auto;
 padding:25px;
-border-radius:25px;
-background:rgba(255,255,255,0.12);
-box-shadow:0 8px 25px rgba(0,0,0,0.25);
+border-radius:20px;
+background:white;
+box-shadow:0 10px 25px rgba(0,0,0,0.1);
 }
 
 /* INPUT */
@@ -49,7 +50,7 @@ input{
 width:100%;
 padding:12px;
 margin:10px 0;
-border:none;
+border:1px solid #ccc;
 border-radius:10px;
 }
 
@@ -58,16 +59,15 @@ button{
 width:100%;
 padding:14px;
 border:none;
-border-radius:15px;
+border-radius:12px;
 font-size:16px;
 color:white;
-background:linear-gradient(145deg,#5f6bff,#7c83ff);
-box-shadow:0 6px 15px rgba(0,0,0,0.3);
+background:linear-gradient(135deg,#6366f1,#4f46e5);
 cursor:pointer;
 }
 
 button:hover{
-transform:scale(1.03);
+opacity:0.9;
 }
 
 /* QUESTION */
@@ -84,14 +84,14 @@ font-size:22px;
 display:block;
 padding:14px;
 margin:10px 0;
-border-radius:12px;
-background:rgba(255,255,255,0.15);
+border-radius:10px;
+background:#eef2ff;
 font-size:20px;
 cursor:pointer;
 }
 
 .option:hover{
-background:rgba(255,255,255,0.3);
+background:#dbeafe;
 }
 
 #count{
@@ -131,7 +131,7 @@ text-align:center;
 let mockTestNo = "Mock Test 01"
 
 document.getElementById("testTitle").innerHTML =
-"JUNIOR OFFICE ASSISTANT (IT)<br><span style='font-size:16px;color:white'>Competitive Examination</span>"
+"JUNIOR OFFICE ASSISTANT (IT)<br><span style='font-size:16px'>Competitive Examination</span>"
 
 let questions=[
 {
