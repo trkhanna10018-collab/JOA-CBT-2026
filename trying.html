@@ -120,6 +120,9 @@ background:rgba(255,255,255,0.2);
 
 <script>
 
+let studentName=""
+let studentPhone=""
+
 /* QUESTIONS */
 let questions=[
 {
@@ -148,7 +151,7 @@ let current=0
 let score=0
 let userAnswers={}
 
-let examTime=300   // change to 5400 for full test
+let examTime=20  // change to 5400 for full test
 let timer
 
 /* TIMER */
@@ -171,6 +174,8 @@ showResult()
 },1000)
 }
 
+studentName=document.getElementById("name").value
+studentPhone=document.getElementById("phone").value
 /* BEGIN */
 function beginTest(){
 
@@ -210,6 +215,8 @@ function showQuestion(){
 let q=questions[current]
 
 let html=""
+html+=`<b>Name:</b> ${studentName}<br>`
+html+=`<b>Phone:</b> ${studentPhone}<br><br>`
 
 html+=`<h3>Q${current+1}. ${q.en}</h3>`
 html+=`<p>${q.hi}</p>`
@@ -261,10 +268,18 @@ html+=`<h2>RESULT</h2>`
 html+=`Score: ${score} / ${questions.length}<br><br>`
 
 questions.forEach((q,i)=>{
+
 html+=`<hr><b>Q${i+1}. ${q.en}</b><br>`
-html+=`${q.hi}<br>`
-html+=`Your Answer: ${userAnswers[i]||"NA"}<br>`
-html+=`Correct: ${q.ans}<br>`
+html+=`${q.hi}<br><br>`
+
+html+=`A. ${q.A}<br>`
+html+=`B. ${q.B}<br>`
+html+=`C. ${q.C}<br>`
+html+=`D. ${q.D}<br><br>`
+
+html+=`<b>Your Answer:</b> ${userAnswers[i]||"Not Attempted"}<br>`
+html+=`<b>Correct Answer:</b> ${q.ans}<br>`
+
 })
 
 html+=`<br><button onclick="downloadPDF()">Download PDF</button>`
@@ -277,14 +292,49 @@ async function downloadPDF(){
 
 const { jsPDF } = window.jspdf
 
-let canvas=await html2canvas(document.getElementById("resultBox"))
-let img=canvas.toDataURL("image/jpeg",0.6)
+let element=document.getElementById("resultBox")
 
-let pdf=new jsPDF()
-pdf.addImage(img,"JPEG",10,10,190,0)
-pdf.save("result.pdf")
+let canvas=await html2canvas(element,{scale:2})
 
+let imgData=canvas.toDataURL("image/jpeg",0.6)
+
+let pdf=new jsPDF("p","mm","a4")
+
+let imgWidth=190
+let pageHeight=297
+let imgHeight=canvas.height*imgWidth/canvas.width
+
+let heightLeft=imgHeight
+let position=10
+
+/* 🔥 WATERMARK */
+pdf.setFontSize(40)
+pdf.setTextColor(200,200,200)
+pdf.text("MOCKSHASTRA",35,150,{angle:45})
+
+pdf.addImage(imgData,"JPEG",10,position,imgWidth,imgHeight)
+
+heightLeft-=pageHeight
+
+while(heightLeft>0){
+
+position=heightLeft-imgHeight
+
+pdf.addPage()
+
+/* watermark again */
+pdf.setFontSize(40)
+pdf.setTextColor(200,200,200)
+pdf.text("MOCKSHASTRA",35,150,{angle:45})
+
+pdf.addImage(imgData,"JPEG",10,position,imgWidth,imgHeight)
+
+heightLeft-=pageHeight
 }
+
+pdf.save("Mockshastra_Result.pdf")
+
+  }
 
 </script>
 
