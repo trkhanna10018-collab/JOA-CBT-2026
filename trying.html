@@ -3,7 +3,7 @@
 <head>
 
 <meta charset="UTF-8">
-<title>Mockshastra - JOA IT Test</title>
+<title>Mockshastra Test</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -25,6 +25,7 @@ font-weight:bold;
 }
 
 .card{
+position:relative;
 max-width:800px;
 margin:20px auto;
 background:rgba(255,255,255,0.15);
@@ -32,6 +33,31 @@ backdrop-filter:blur(15px);
 padding:25px;
 border-radius:15px;
 box-shadow:0 10px 30px rgba(0,0,0,0.3);
+overflow:hidden;
+}
+
+/* 🔥 WATERMARK BACKGROUND */
+.card::before{
+content:"MOCKSHASTRA MOCKSHASTRA MOCKSHASTRA MOCKSHASTRA MOCKSHASTRA MOCKSHASTRA";
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+font-size:30px;
+color:rgba(255,255,255,0.08);
+transform:rotate(-30deg);
+display:flex;
+flex-wrap:wrap;
+align-content:center;
+justify-content:center;
+pointer-events:none;
+z-index:0;
+}
+
+.card *{
+position:relative;
+z-index:1;
 }
 
 input{
@@ -50,10 +76,6 @@ border-radius:8px;
 color:white;
 font-size:16px;
 cursor:pointer;
-}
-
-button:hover{
-transform:scale(1.05);
 }
 
 .option{
@@ -77,7 +99,7 @@ margin:10px;
 
 <body>
 
-<div class="header">MOCKSHASTRA - JOA IT MOCK TEST</div>
+<div class="header">MOCKSHASTRA MOCK TEST</div>
 
 <div class="timer" id="timer" style="display:none"></div>
 
@@ -85,22 +107,23 @@ margin:10px;
 <h3>Enter Details</h3>
 <input id="name" placeholder="Enter Name">
 <input id="phone" placeholder="Enter Phone">
-<button onclick="startTest()">Start Test</button>
+<button onclick="startCountdown()">Start Test</button>
+</div>
+
+<div class="card" id="countBox" style="display:none;text-align:center">
+<h3>Test will start in</h3>
+<h1 id="count">5</h1>
 </div>
 
 <div class="card" id="questionBox" style="display:none"></div>
 
 <div class="card" id="resultBox" style="display:none"></div>
 
-<!-- PDF hidden -->
-<div id="pdfContent" style="display:none;background:white;color:black;padding:20px"></div>
-
 <script>
 
 let questions=[
 {
-id:1,
-en:"Which aggregate function calculates the average value?",
+en:"Which aggregate function calculates average?",
 hi:"कौन-सा function average निकालता है?",
 A:"SUM()",
 B:"AVG()",
@@ -109,9 +132,8 @@ D:"MAX()",
 ans:"B"
 },
 {
-id:2,
-en:"Which SQL clause is used to group rows?",
-hi:"Rows को group करने के लिए कौन सा clause?",
+en:"Which SQL clause groups rows?",
+hi:"Rows को group करने के लिए?",
 A:"ORDER BY",
 B:"GROUP BY",
 C:"WHERE",
@@ -124,28 +146,43 @@ let current=0
 let score=0
 let userAnswers={}
 
-let studentName=""
-let studentPhone=""
+let name=""
+let phone=""
 
 let time=20
 let timerInterval
 
-function startTest(){
+function startCountdown(){
 
-studentName=document.getElementById("name").value
-studentPhone=document.getElementById("phone").value
+name=document.getElementById("name").value
+phone=document.getElementById("phone").value
 
-if(studentName=="" || studentPhone==""){
+if(name=="" || phone==""){
 alert("Enter details")
 return
 }
 
 document.getElementById("formBox").style.display="none"
+document.getElementById("countBox").style.display="block"
+
+let t=5
+
+let c=setInterval(()=>{
+document.getElementById("count").innerHTML=t
+t--
+
+if(t<0){
+clearInterval(c)
+
+document.getElementById("countBox").style.display="none"
 document.getElementById("questionBox").style.display="block"
 document.getElementById("timer").style.display="block"
 
 startTimer()
 showQuestion()
+}
+
+},1000)
 }
 
 function startTimer(){
@@ -157,7 +194,6 @@ time--
 
 if(time<0){
 clearInterval(timerInterval)
-alert("Time Over")
 showResult()
 }
 },1000)
@@ -168,8 +204,9 @@ function showQuestion(){
 let q=questions[current]
 
 let html=""
-html+=`<b>Name:</b> ${studentName}<br>`
-html+=`<b>Phone:</b> ${studentPhone}<br><br>`
+
+html+=`<b>Name:</b> ${name}<br>`
+html+=`<b>Phone:</b> ${phone}<br><br>`
 
 html+=`<h3>Q${current+1}. ${q.en}</h3>`
 html+=`<p>${q.hi}</p>`
@@ -216,8 +253,8 @@ box.style.display="block"
 let html=""
 
 html+=`<h2>RESULT</h2>`
-html+=`<b>Name:</b> ${studentName}<br>`
-html+=`<b>Phone:</b> ${studentPhone}<br>`
+html+=`<b>Name:</b> ${name}<br>`
+html+=`<b>Phone:</b> ${phone}<br>`
 html+=`<b>Score:</b> ${score}/${questions.length}<br><br>`
 
 questions.forEach((q,i)=>{
@@ -228,44 +265,28 @@ html+=`A. ${q.A}<br>`
 html+=`B. ${q.B}<br>`
 html+=`C. ${q.C}<br>`
 html+=`D. ${q.D}<br><br>`
-html+=`Your Answer: ${userAnswers[i] || "Not Attempted"}<br>`
+html+=`Your Answer: ${userAnswers[i] || "NA"}<br>`
 html+=`Correct Answer: ${q.ans}<br>`
 })
 
 html+=`<br><button onclick="downloadPDF()">Download PDF</button>`
 
 box.innerHTML=html
+}
 
-// PDF content
-let pdfHTML = ""
-
-pdfHTML+=`<h2>MOCKSHASTRA RESULT</h2>`
-pdfHTML+=`<b>Name:</b> ${studentName}<br>`
-pdfHTML+=`<b>Phone:</b> ${studentPhone}<br>`
-pdfHTML+=`<b>Score:</b> ${score}/${questions.length}<br><br>`
-
-questions.forEach((q,i)=>{
-pdfHTML+=`<hr>`
-pdfHTML+=`<b>Q${i+1}. ${q.en}</b><br>`
-pdfHTML+=`${q.hi}<br><br>`
-pdfHTML+=`A. ${q.A}<br>`
-pdfHTML+=`B. ${q.B}<br>`
-pdfHTML+=`C. ${q.C}<br>`
-pdfHTML+=`D. ${q.D}<br><br>`
-pdfHTML+=`Your Answer: ${userAnswers[i] || "Not Attempted"}<br>`
-pdfHTML+=`Correct Answer: ${q.ans}<br>`
-})
-
-document.getElementById("pdfContent").innerHTML = pdfHTML
-
+// 🔥 PDF EXACT PREVIEW CAPTURE
 async function downloadPDF(){
 
 const { jsPDF } = window.jspdf
 
-let element=document.getElementById("pdfContent")
-element.style.display="block"
+let element=document.getElementById("resultBox")
 
-let canvas=await html2canvas(element,{scale:2,backgroundColor:"#ffffff"})
+await new Promise(r=>setTimeout(r,500))
+
+let canvas=await html2canvas(element,{
+scale:2,
+backgroundColor:null
+})
 
 let imgData=canvas.toDataURL("image/png")
 
@@ -274,21 +295,9 @@ let pdf=new jsPDF("p","mm","a4")
 let width=190
 let height=canvas.height*width/canvas.width
 
-// 🔥 MULTIPLE WATERMARK
-// WATERMARK MULTIPLE
-for(let x=20; x<=160; x+=60){
-  for(let y=40; y<=260; y+=80){
-    pdf.setFontSize(16)
-    pdf.setTextColor(220,220,220)
-    pdf.text("MOCKSHASTRA", x, y, {angle:45})
-  }
-}
-
-pdf.addImage(imgData,"JPEG",10,10,width,height)
+pdf.addImage(imgData,"PNG",10,10,width,height)
 
 pdf.save("Mockshastra_Result.pdf")
-
-element.style.display="none"
 }
 
 </script>
