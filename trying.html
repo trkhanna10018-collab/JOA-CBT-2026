@@ -237,8 +237,26 @@ html+=`<br><button onclick="downloadPDF()">Download PDF</button>`
 box.innerHTML=html
 
 // PDF content
-document.getElementById("pdfContent").innerHTML=html
-}
+let pdfHTML = ""
+
+pdfHTML+=`<h2>MOCKSHASTRA RESULT</h2>`
+pdfHTML+=`<b>Name:</b> ${studentName}<br>`
+pdfHTML+=`<b>Phone:</b> ${studentPhone}<br>`
+pdfHTML+=`<b>Score:</b> ${score}/${questions.length}<br><br>`
+
+questions.forEach((q,i)=>{
+pdfHTML+=`<hr>`
+pdfHTML+=`<b>Q${i+1}. ${q.en}</b><br>`
+pdfHTML+=`${q.hi}<br><br>`
+pdfHTML+=`A. ${q.A}<br>`
+pdfHTML+=`B. ${q.B}<br>`
+pdfHTML+=`C. ${q.C}<br>`
+pdfHTML+=`D. ${q.D}<br><br>`
+pdfHTML+=`Your Answer: ${userAnswers[i] || "Not Attempted"}<br>`
+pdfHTML+=`Correct Answer: ${q.ans}<br>`
+})
+
+document.getElementById("pdfContent").innerHTML = pdfHTML
 
 async function downloadPDF(){
 
@@ -249,7 +267,7 @@ element.style.display="block"
 
 let canvas=await html2canvas(element,{scale:2,backgroundColor:"#ffffff"})
 
-let imgData=canvas.toDataURL("image/jpeg",0.9)
+let imgData=canvas.toDataURL("image/png")
 
 let pdf=new jsPDF("p","mm","a4")
 
@@ -257,11 +275,13 @@ let width=190
 let height=canvas.height*width/canvas.width
 
 // 🔥 MULTIPLE WATERMARK
-for(let y=40;y<280;y+=60){
-pdf.setFontSize(20)
-pdf.setTextColor(200,200,200)
-pdf.text("MOCKSHASTRA",20,y,{angle:45})
-pdf.text("MOCKSHASTRA",100,y,{angle:45})
+// WATERMARK MULTIPLE
+for(let x=20; x<=160; x+=60){
+  for(let y=40; y<=260; y+=80){
+    pdf.setFontSize(16)
+    pdf.setTextColor(220,220,220)
+    pdf.text("MOCKSHASTRA", x, y, {angle:45})
+  }
 }
 
 pdf.addImage(imgData,"JPEG",10,10,width,height)
