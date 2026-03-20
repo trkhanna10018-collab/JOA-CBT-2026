@@ -286,15 +286,19 @@ html+=`<br><button onclick="downloadPDF()">Download PDF</button>`
 
 box.innerHTML=html
 }
+  document.getElementById("pdfContent").innerHTML=html
 
 /* PDF */
 async function downloadPDF(){
 
 const { jsPDF } = window.jspdf
 
-let element=document.getElementById("resultBox")
-
-let canvas=await html2canvas(element,{scale:2})
+let element=document.getElementById("pdfContent")
+element.style.display="block"
+let canvas=await html2canvas(element,{
+scale:2,
+backgroundColor:"#ffffff"
+})
 
 let imgData=canvas.toDataURL("image/jpeg",0.6)
 
@@ -337,6 +341,6 @@ pdf.save("Mockshastra_Result.pdf")
   }
 
 </script>
-
+<div id="pdfContent" style="display:none;background:white;color:black;padding:20px"></div>
 </body>
 </html>
