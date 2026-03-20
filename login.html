@@ -1,357 +1,231 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Login</title>
+<title>JOA IT Login</title>
 
 <style>
-
 body{
 margin:0;
-font-family:Arial, sans-serif;
+font-family: 'Segoe UI', sans-serif;
 background:linear-gradient(135deg,#667eea,#764ba2);
-}
-
-/* WRAPPER */
-.wrapper{
-width:100%;
-min-height:100vh;
 display:flex;
-flex-direction:column;
+justify-content:center;
 align-items:center;
-padding-top:40px;
+min-height:100vh;
 }
 
-/* 🔵 INFO BOX (Glass effect) */
-.infoBox{
-max-width:750px;
-background:rgba(255,255,255,0.25);
-backdrop-filter:blur(15px);
-padding:25px;
-border-radius:15px;
-text-align:center;
-color:white;
-box-shadow:0 10px 30px rgba(0,0,0,0.3);
-margin-bottom:25px;
-}
-.highlightBox{
-background:linear-gradient(45deg,#facc15,#f97316);
-color:black;
-font-weight:bold;
-font-size:20px;
-text-align:center;
-padding:20px;
-margin:20px;
-border-radius:15px;
-box-shadow:0 10px 30px rgba(0,0,0,0.4);
-animation:pop 1s infinite alternate;
-}
-
-@keyframes pop{
-0%{transform:scale(0.95); opacity:0;}
-100%{transform:scale(1); opacity:1;}
-}
-
-/* ✨ MAIN BOX STYLE */
-.infoBox{
-animation:pop 0.6s ease-out;
-background:linear-gradient(135deg, rgba(255,255,255,0.25), rgba(255,255,255,0.1));
+/* MAIN CARD */
+.main{
+width:100%;
+max-width:850px;
+background:rgba(255,255,255,0.1);
 backdrop-filter:blur(20px);
 border-radius:20px;
-padding:25px;
-box-shadow:0 20px 40px rgba(0,0,0,0.25);
-border:1px solid rgba(255,255,255,0.3);
+padding:30px;
+box-shadow:0 20px 60px rgba(0,0,0,0.4);
+}
+
+/* HEADER */
+.header{
+text-align:center;
 color:white;
-transition:0.3s;
+margin-bottom:25px;
 }
 
-/* 🔥 HOVER EFFECT */
-.infoBox:hover{
-transform:scale(1.03);
-box-shadow:0 25px 50px rgba(0,0,0,0.35);
+.header h1{
+margin:0;
+font-size:32px;
 }
 
-/* ✨ TEXT STYLING */
-.infoBox h1{
-font-size:40px;
-margin:8px;
-letter-spacing:2px;
-text-shadow:0 2px 10px rgba(0,0,0,0.3);
-}
-
-.infoBox h2{
-font-size:26px;
-margin:8px;
-color:#ffe082;
-}
-
-.infoBox h3{
-font-size:16px;
-margin:12px;
-color:#e0e0e0;
-}
-
-.infoBox p{
-font-size:14px;
+.header p{
 opacity:0.9;
 }
 
-/* ✅ LIST IMPROVEMENT */
-.infoBox li{
-margin:6px 0;
-text-align:left;
-padding-left:5px;
-position:relative;
+/* FLEX LAYOUT */
+.flex{
+display:flex;
+gap:25px;
+flex-wrap:wrap;
 }
 
-/* ✔ Custom bullet */
-.infoBox li::before{
-content:"✔";
-position:absolute;
-left:-18px;
-color:#00e676;
-font-weight:bold;
-}
-/* 🔥 FREE TEST BOX */
-.freeTestBox{
-margin-top:25px;
-padding:25px;
-border-radius:20px;
-background:linear-gradient(135deg,#ff9a00,#ff6a00);
+/* LEFT (INFO) */
+.info{
+flex:1;
+min-width:250px;
 color:white;
-text-align:center;
-box-shadow:0 10px 40px rgba(0,0,0,0.3);
-animation:pop 0.6s ease;
 }
 
-.freeTestBox h2{
-margin-bottom:10px;
-font-size:22px;
+.info ul{
+padding-left:18px;
 }
 
-.freeTestBox p{
-font-size:14px;
-margin-bottom:15px;
-opacity:0.95;
+.info li{
+margin:8px 0;
 }
 
-.freeTestBox ul{
-list-style:none;
-padding:0;
-margin-bottom:20px;
-}
-
-.freeTestBox li{
-margin:6px 0;
-font-size:14px;
-}
-
-.freeBtn{
-display:inline-block;
-padding:12px 25px;
-border-radius:12px;
+/* RIGHT (LOGIN BOX) */
+.login{
+flex:1;
+min-width:250px;
 background:white;
-color:#ff6a00;
-font-weight:bold;
+padding:25px;
+border-radius:15px;
+box-shadow:0 10px 30px rgba(0,0,0,0.3);
+}
+.footer a{
+color:#facc15;
 text-decoration:none;
-transition:0.3s;
-}
-
-.freeBtn:hover{
-transform:scale(1.08);
-background:#fff3e0;
-}
-
-
-/* 🟣 LOGIN BOX */
-.container{
-background: linear-gradient(135deg,#ffffff,#e0e7ff);
-
-padding:35px;
-border-radius:20px;
-width:330px;
-text-align:center;
-box-shadow:0 15px 40px rgba(0,0,0,0.4);
-border-top:5px solid #6366f1;
-margin-bottom:25px;
-}
-
-input{
-width:100%;
-padding:12px;
-margin:10px 0;
-border-radius:10px;
-border:1px solid #ccc;
-}
-
-.container input{
-color:#111;
 font-weight:500;
 }
+
+.footer a:hover{
+text-decoration:underline;
+}
+
+.login h3{
+margin-bottom:15px;
+}
+
+input, button{
+width:100%;
+padding:14px;
+margin:10px 0;
+border-radius:10px;
+box-sizing:border-box;
+  }
 
 /* BUTTON */
 button{
 width:100%;
 padding:12px;
 border:none;
-border-radius:10px;
-background:linear-gradient(45deg,#6366f1,#4f46e5);
+border-radius:8px;
+background:#4f46e5;
 color:white;
 font-size:16px;
 cursor:pointer;
-}
-.paymentBox{
-margin-top:25px;
-padding:20px;
-border-radius:15px;
-background:#ffffff;
-text-align:center;
-box-shadow:0 10px 30px rgba(0,0,0,0.2);
-margin-top:20px;
-margin-bottom:20px;
+transition:0.3s;
 }
 
-.paymentBox h3{
-margin-bottom:10px;
-color:#333;
+button:hover{
+background:#4338ca;
 }
 
-.qr{
-width:180px;
-margin:15px 0;
-border-radius:10px;
-}
-/* 🔥 PACKAGE BOX (Highlighted) */
-.detailsBox{
-max-width:750px;
-background:linear-gradient(135deg,#1e293b,#0f172a);
+/* FREE BUTTON */
+.freeBtn{
+display:inline-block;
+margin-top:10px;
+padding:10px 18px;
+background:#22c55e;
 color:white;
-padding:25px;
-border-radius:18px;
+border-radius:8px;
+text-decoration:none;
+}
+
+.freeBtn:hover{
+background:#16a34a;
+}
+
+/* PRICE BOX */
+.priceBox{
+margin-top:20px;
+padding:15px;
+border-radius:10px;
+background:#111827;
+color:white;
 text-align:center;
-box-shadow:0 15px 40px rgba(0,0,0,0.6);
-border:2px solid #22c55e;
-}
-
-.detailsBox h3{
-color:#22c55e;
-margin-bottom:10px;
-font-size:28px;
-}
-
-.detailsBox p{
-margin:6px 0;
-font-size:21px;
 }
 
 .price{
-font-size:26px;
-font-weight:bold;
 color:#facc15;
-margin-top:13px;
-}
-
-.highlight{
-color:#22c55e;
+font-size:22px;
 font-weight:bold;
 }
 
-</style>
+/* FOOTER */
+.footer{
+text-align:center;
+margin-top:15px;
+font-size:12px;
+color:white;
+opacity:0.8;
+}
 
+.unlockBtn{
+display:inline-block;
+margin-top:15px;
+padding:12px 20px;
+border-radius:10px;
+background:linear-gradient(45deg,#22c55e,#16a34a);
+color:white;
+font-weight:bold;
+text-decoration:none;
+transition:0.3s;
+}
+
+.unlockBtn:hover{
+transform:scale(1.05);
+background:#15803d;
+}
+</style>
 </head>
 
 <body>
 
-<div class="wrapper">
+<div class="main">
 
-<!-- 🔥 FREE TEST BOX -->
-<div class="freeTestBox">
+<div class="header">
+<h1>JOA IT Mock Test</h1>
+<p>Practice Like Real Exam • Improve Accuracy & Speed</p>
+</div>
 
-<h2>🎯 Try Free Sample Test of Junior Office Assistant (IT) </h2>
+<div class="flex">
 
-<p>
-Experience the real exam interface before purchasing full access.
-Attempt a free mock test and evaluate your preparation.
-</p>
-
+<!-- LEFT INFO -->
+<div class="info">
+<h3>🎯 What You Get:</h3>
 <ul>
-<li>✔ Real Exam Interface</li>
-<li>✔ Timer Based Test</li>
-<li>✔ Instant Result</li>
-<li>✔ Bilingual (English + Hindi)</li>
+<li>Real Exam Interface</li>
+<li>Timer Based Test</li>
+<li>Instant Result</li>
+<li>Bilingual (English + Hindi)</li>
+<li>15 Full-Length Mock Tests</li>
 </ul>
 
 <a href="joafreetest.html" class="freeBtn">Start Free Test</a>
 
+<div class="priceBox">
+<p>Full Access</p>
+<div class="price">₹199</div>
+<p>WhatsApp after payment</p>
+<p>📞 8278847614</p>
 </div>
-<!-- 🟣 LOGIN -->
-<div class="container">
+<a href="payment.html" class="unlockBtn">🔓 Unlock Full Access</a>
 
-<h3>Login to Access Mock Tests</h3>
+</div>
+
+<!-- LOGIN -->
+<div class="login">
+<h3>Login</h3>
 
 <input id="username" placeholder="Username">
 <input id="password" type="password" placeholder="Password">
 
 <button onclick="login()">Login</button>
-<div class="footer-links">
-<p>
+
+</div>
+
+</div>
+
+<div class="footer">
 By continuing, you agree to our  
-<a href="terms.html">Terms & Conditions</a> and  
-<a href="privacy.html">Privacy Policy</a>
-</p>
-</div>
-</div>
-<div class="highlightBox">
-🔥 Full Mock Test Access @ ₹199
-
-<br><br>
-
-📞 Call / WhatsApp: 82788-47614
-
-</div>
-<div class="paymentBox">
-
-<h3>💳 Payment via UPI</h3>
-
-<p>Scan & Pay using GPay / PhonePe / Paytm</p>
-
-<img src="qr.png" alt="UPI QR Code" class="qr">
-
-<p><b>Price: ₹199/-</b></p>
-
-<p>After payment, send screenshot on WhatsApp</p>
-
-<p>📞 8278847614</p>
-
-</div>
-<!-- 🔥 PACKAGE -->
-<div class="detailsBox">
-
-<h3>🚀 Mock Test Package</h3>
-
-<p class="highlight">✔ 15 Full-Length Mock Tests</p>
-<p>✔ Based on Latest HP JOA (IT) Pattern</p>
-<p>✔ Real Exam Interface + Timer</p>
-
-<p class="highlight">✔ 100 Questions in Each Test</p>
-<p>✔ Instant Result after submission</p>
-<p>✔ Attempted Test PDF Available</p>
-
-<p>✔ Improve Speed, Accuracy & Confidence</p>
-
-<p class="price">💰 Price: ₹199 (Full Access)</p>
-
-<p>📞 Contact: 82788-47614</p>
-
-<p>👤 Created & Managed by:</p>
-<p><b>Tilak Raj</b></p>
-<p>Junior Office Assistant (IT)</p>
-
+<a href="terms.html" target="_blank">Terms & Conditions</a> and  
+<a href="privacy.html" target="_blank">Privacy Policy</a>
 </div>
 
 </div>
 
 <script>
-
 function login(){
 
 let u=document.getElementById("username").value
@@ -370,7 +244,6 @@ alert("Wrong Username or Password")
 }
 
 }
-
 </script>
 
 </body>
